@@ -1,0 +1,189 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ==========================================================================
+   Medonix Benchmark Design Tokens + shadcn/ui Theme Variables
+   Reference: https://medonix-nextjs.vercel.app/
+   - Primary Forest Emerald : #2b7f5c
+   - Dopely Vibrant Emerald : #33a475
+   - Soft Mint Highlight    : #d0f4e5
+   - Neutral Grey           : #6a6e6e
+   - Soft Canvas / Smoke    : #eef1ef / #f6f6f6 / #f8faf9
+   - Hairline Stroke        : #e3e8e5 / #eeeeee
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  --background: #eef1ef;
+  --foreground: #28302b;
+
+  --card: #f9fbfa;
+  --card-elevated: #ffffff;
+  --card-foreground: #28302b;
+
+  --sidebar-bg: #e4e9e6;
+  --sidebar-foreground: #343c37;
+
+  --primary: #2b7f5c;
+  --primary-hover: #236a4c;
+  --primary-foreground: #e8eee9;
+
+  --secondary: #eef3f0;
+  --secondary-foreground: #303934;
+
+  --muted: #ecefed;
+  --muted-foreground: #6a6e6e;
+
+  --accent: #d0f4e5;
+  --accent-emerald: #33a475;
+  --accent-foreground: #18533b;
+
+  --border: #d4d9d6;
+  --input: #d0d6d2;
+  --ring: #2b7f5c;
+
+  --radius: 1rem;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #0d1210;
+  --foreground: #dde4e1;
+
+  --card: #131a16;
+  --card-elevated: #18221d;
+  --card-foreground: #dde4e1;
+
+  --sidebar-bg: #101613;
+  --sidebar-foreground: #cbd6d1;
+
+  --primary: #38ae77;
+  --primary-hover: #46c88a;
+  --primary-foreground: #132e21;
+
+  --secondary: #1a241f;
+  --secondary-foreground: #e5ebe8;
+
+  --muted: #1a241f;
+  --muted-foreground: #93a39b;
+
+  --accent: #183a2c;
+  --accent-emerald: #3fda8e;
+  --accent-foreground: #beeed5;
+
+  --border: #34443c;
+  --input: #34443c;
+  --ring: #38ae77;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-elevated: var(--card-elevated);
+  --color-card-foreground: var(--card-foreground);
+  --color-sidebar-bg: var(--sidebar-bg);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-emerald: var(--accent-emerald);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-inter-tight), "Pretendard Variable", "Malgun Gothic", sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  letter-spacing: -0.01em;
+}
+
+/* 스크롤바 정돈 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cdd5d1;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aeb9b3;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #283730;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #394d43;
+}
+
+/* ==========================================================================
+   Medonix Benchmark Scroll-Reveal & Top-Down Cascade Motion
+   - Windows 개발 환경(MinAnimate=0 -> prefers-reduced-motion: reduce)에서도
+     Medonix 벤치마크 사이트와 동일하게 페이드인 모션이 정상 재생되도록 보장
+   ========================================================================== */
+
+.reveal-item {
+  opacity: 0;
+  transform: translate3d(0, 42px, 0) scale3d(0.985, 0.985, 1);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal-item[data-reveal="down"] {
+  transform: translate3d(0, 22px, 0);
+}
+
+.reveal-item[data-reveal="scale"] {
+  transform: translate3d(0, 42px, 0) scale3d(0.968, 0.968, 1);
+}
+
+.reveal-item.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+}
+
+.reveal-item.is-settled {
+  will-change: auto;
+  transition-delay: 0ms;
+}
+
+@keyframes medonix-dot-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.82);
+  }
+}
+
+.live-pulse-dot {
+  animation: medonix-dot-pulse 2s ease-in-out infinite;
+}
